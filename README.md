@@ -1,5 +1,4 @@
 # Integradora II
-[![Contribuidores][contribuidores-shield]][contributors-url]
 
 ## contenido
 <details>
@@ -74,17 +73,14 @@ capaz de visualizar y utilizar la información para adaptarla a sus necesidades.
 <!-- Organigrama -->
 #### Organigrama.
 El control del proceso de asignación y realización de actividades fue implementado con ayuda de Jira Software, la cual es una herramienta en línea para la administración de proyectos de software con el objetivo de documentar el seguimiento del desarrollo de las diferentes actividades que se van desarrollando a lo largo de la implementación de un proyecto con el fin de documentar los avances de cada integrante del equipo de una manera más organizada y coherente.
-El control de Actividades del equipo se encuentra en la siguiente liga...
+El control de Actividades del equipo se encuentra en la siguiente [liga...][organigrama-url]
 
--->https://utng.atlassian.net/jira/software/projects/GEO/boards/2/backlog?selectedIssue=GEO-31
 <!-- Diagrama Gantt -->
 #### Diagrama Gantt.
 Diagrama Gantt.
 
 El diagrama de Gantt generado a partir del control de actividades del orgnanigrama definido en el punto anterior,
-se puede encontrar en el siguiente enlace...
-
---> https://docs.google.com/spreadsheets/d/1rkuLsl1tamH4W2bh5Htx5j1Fur-tqTLR/edit?usp=sharing&ouid=100668929262925714548&rtpof=true&sd=true
+se puede encontrar en el siguiente [enlace...][gantt-url]
 
 ## Análisis de la Solución
 <!-- Requerimientos -->
@@ -180,8 +176,8 @@ del proyecto.
 Estándares empleados en la codificación
 
 En el siguiente enlace se encuentra un archivo con los estándares
-de codificación implementados en la aplicación...
--->https://drive.google.com/file/d/1J9REbqCNSdwR_MSIuLWJEpHEJjOjOS7I/view?usp=sharing
+de codificación implementados en la [aplicación...][estandar-url]
+
 <!-- Arquitectura MVC y Middleware -->
 #### Arquitectura.
 •	Patrón de diseño
@@ -266,18 +262,15 @@ siguienetes pasos a realizar:
 Guias de Uso.
 
 En el siguiente enlace se encuentra una pequeña guia de uso detallada
-de la forma de uso de la aplicación...
-
---> https://drive.google.com/file/d/1nq5cdg5AnpFfz82L2ZEOYj9CVCnVIf0b/view?usp=sharing
+de la forma de uso de la [aplicación...][guia-url]
 
 ## contribucion
 Agradecimientos especiales a Carlos Saúl Navarro ING.AGR por su
 gran contribución de conocimientos impartidos de manera virtual
 por medio de su contenido publicado en la plataforma Youtube.
 
-El contenido se puede consultar en el siguiente enlace...
+El contenido se puede consultar en el siguiente [enlace...][contribucion-url]
 
--->https://www.youtube.com/channel/UCX2SmNiGKRq9wZRN85RHHBA
 ## Licencia
 Licencia.
 
@@ -290,13 +283,19 @@ Licencia.
 
 •	Alfonso --Email:h hell.faith2238@gmail.com Tel: 418-114-1557
 ## Participantes
-* [Kevin Leonel Valdez Sánchez]()
-* [Cristian Israel Buclón Pedroza]()
-* [Oscar Arturo Guajardo Robles]()
-* [Alfonso Alberto Ferro Bortolotti]()
+•Kevin Leonel Valdez Sánchez
 
-[contribuidores-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
-[contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
+•Cristian Israel Buclón Pedroza
+
+•Oscar Arturo Guajardo Robles
+
+•Alfonso Alberto Ferro Bortolotti
+
+[organigrama-url]:https://utng.atlassian.net/jira/software/projects/GEO/boards/2/backlog?selectedIssue=GEO-31
+[gantt-url]:https://docs.google.com/spreadsheets/d/1rkuLsl1tamH4W2bh5Htx5j1Fur-tqTLR/edit?usp=sharing&ouid=100668929262925714548&rtpof=true&sd=true
+[estandar-url]:https://drive.google.com/file/d/1J9REbqCNSdwR_MSIuLWJEpHEJjOjOS7I/view?usp=sharing
+[guia-url]:https://drive.google.com/file/d/1nq5cdg5AnpFfz82L2ZEOYj9CVCnVIf0b/view?usp=sharing
+[contribucion-url]:https://www.youtube.com/channel/UCX2SmNiGKRq9wZRN85RHHBA
 [Casos-url]:https://user-images.githubusercontent.com/88465297/160028834-069438fd-fc61-491c-815d-2b4bc9d9b2e6.png
 [Modelo-url]:https://user-images.githubusercontent.com/88465297/160037552-2d8b33e8-7818-41e3-859b-9be4db7a10e1.jpg
 [Componente-url]:https://user-images.githubusercontent.com/88465297/160040322-6561d39b-9d99-4f52-9e9f-767c9acb3c29.png
