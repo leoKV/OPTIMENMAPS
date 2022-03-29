@@ -1,0 +1,434 @@
+/*
+Este es el codigo fuente, para el desarrollo de 
+la aplicación para la visualización y descarga de  
+indices de vegetación 
+*/
+/*Imports de la Aplicación de Engine*/
+var munGuan = ee.FeatureCollection("users/optimen01/Mun_Guanajuato"),
+    colS2A = ee.ImageCollection("COPERNICUS/S2_SR"),
+    imageVisParam = {"opacity":1,"bands":["B4","B3","B2"],"min":1498.2,"max":2747.8,"gamma":1.7060000000000002},
+    s2Probability = ee.ImageCollection("COPERNICUS/S2_CLOUD_PROBABILITY"),
+    colL8Sr = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2"),
+    imageVisParam2 = {"opacity":1,"bands":["SR_B4","SR_B3","SR_B2"],"min":8696.8,"max":14303.2,"gamma":1.9000000000000001},
+    EstadoGuanajuato = ee.FeatureCollection("users/optimen01/Estado_Guanajuato");
+/*-------------Cuerpo del Script de la aplicación de Engine-----------------*/
+//Configuraciones iniciales del mapa-----ALFONSO FERRO--------
+Map.centerObject(munGuan,8.5);
+//Añadir al mapa el Estado de Guanajuato
+Map.addLayer(EstadoGuanajuato.filter(ee.Filter.eq('NOM_ENT', 'Guanajuato')).style({fillColor:'0000', width:3, color:'blue'}),{},'Estado de Guanajuato');
+//Controles de visibilidad del mapa
+Map.setControlVisibility({ layerList:true, zoomControl:true, scaleControl:true, mapTypeControl:false, fullscreenControl:false, drawingToolsControl:false});
+//Modifica el mapa base de Open Street Maps a Google Hibrido
+Map.setOptions({mapTypeId:'HYBRID'});
+
+//Añadir documento orientativo para el uso de la aplicación en el mapa
+var docInfo = ui.Label({value: 'Mas información..', style:{color:'white', fontWeight:'bold', fontSize:'14px', position:'bottom-right', backgroundColor:'9999'}, targetUrl:'https://drive.google.com/file/d/1nq5cdg5AnpFfz82L2ZEOYj9CVCnVIf0b/view?usp=sharing'});
+
+Map.widgets().set(0, docInfo);
+
+//Añadir archivo de poligonos de los municipios
+//Diccionario de Municipios del Estado de Gunajuato.
+var munGuanajuato ={
+'Abasolo':[],
+'Acámbaro':[],
+'Apaseo el Alto':[],
+'Apaseo el Grande':[],
+'Atarjea':[],
+'Celaya':[],
+'Comonfort':[],
+'Coroneo':[],
+'Cortazar':[],
+'Cuerámaro':[],
+'Doctor Mora':[],
+'Dolores Hidalgo Cuna de la Independencia Nacional':[],
+'Guanajuato':[],
+'Huanímaro':[],
+'Irapuato':[],
+'Jaral del Progreso':[],
+'Jerécuaro':[],
+'León':[],
+'Manuel Doblado':[],
+'Moroleón':[],
+'Ocampo':[],
+'Pénjamo':[],
+'Pueblo Nuevo':[],
+'Purísima del Rincón':[],
+'Romita':[],
+'Salamanca':[],
+'Salvatierra':[],
+'San Diego de la Unión':[],
+'San Felipe':[],
+'San Francisco del Rincón':[],
+'San José Iturbide':[],
+'San Luis de la Paz':[],
+'San Miguel de Allende':[],
+'Santa Catarina':[],
+'Santa Cruz de Juventino Rosas':[],
+'Santiago Maravatío':[],
+'Silao de la Victoria':[],
+'Tarandacuao':[],
+'Tarimoro':[],
+'Tierra Blanca':[],
+'Uriangato':[],
+'Valle de Santiago':[],
+'Victoria':[],
+'Villagrán':[],
+'Xichú':[],
+'Yuriria':[],
+};
+
+
+/*Oscar Arturo Investigación y definición de Bandas para NDVI Y NDWI*/
+function colIndex(I){
+  
+  var ndvi = I.normalizedDifference(['B8', 'B4']).rename('NDVI');
+  I = I.addBands(ndvi);
+  
+  var ndwi = I.normalizedDifference(['B8', 'B11']).rename('NDWI');
+  I = I.addBands(ndwi);
+   return I
+};
+
+/*Oscar Arturo - Investigación y definición de Bandas para NDVI Y NDWI Landsat l8*/
+function colIndexl8(I){
+  
+  var ndvi = I.normalizedDifference(['SR_B5', 'SR_B4']).rename('NDVI');
+  I = I.addBands(ndvi);
+  
+  var ndwi = I.normalizedDifference(['SR_B5', 'SR_B7']).rename('NDWI');
+  I = I.addBands(ndwi);
+   return I
+};
+
+//Crear una coleccción libre de nubes, mediante el algoritmo Cloud Detector de la colección sentinel 2 cloud probability
+//s2 cloud probability
+var S2 = colS2A.filterMetadata('CLOUDY_PIXEL_PERCENTAGE', 'less_than', 40);
+var s2cloudProbability = s2Probability;
+
+/*
+
+Unir S2 con s2cloudProbability
+*/
+
+var s2_s2cloudprobability = ee.Join.saveFirst('cloud_mask').apply({
+  primary:S2, 
+  secondary:s2cloudProbability, 
+  condition: ee.Filter.equals({leftField: 'system:index', rightField:'system:index'})
+});
+
+/*
+Coleccion con la aplicación del algoritmo sentinel cloud detector
+*/
+
+var coleccionMask = ee.ImageCollection(s2_s2cloudprobability).map(function(cloud){
+  var nubes = ee.Image(cloud.get('cloud_mask')).select('probability');
+  var mask = nubes.lt(50);
+  return cloud.updateMask(mask)
+})
+
+
+
+/*
+Usos agrícolas
+Con la combinación de bandas 6, 5, 2 en Landsat  y 11, 8A, 2 en Sentinel 
+Vegetación vigorosa
+Para la detección de vegetación en un estado saludable se utiliza la combinación de bandas 5,6,2 en Landsat 8 y 8A,11,2 en Sentinel 2.
+Análisis de la vegetación
+Mediante la combinación de bandas 5,6,2 en Landsat 8 y 8A,11,2 en Sentinel 2.
+Índice de Vegetación Mejorado (EVI)
+El EVI provee información que permite monitorear el estado de la vegetación en caso de altas densidades de biomasa.
+Para obtenerlo debemos operar con las bandas de la imagen de la siguiente forma:
+Landsat 8 G *(5 -4)/(5 +C1*4 – C2*2 +L), Sentinel 2 G*((B8A-B04)/((B8A+C1*B04-C2*B02)+L)). 
+Dónde L=1, C1 = 6, C2 = 7.5, y G (gain factor) = 2.5.
+*/
+
+// print('coleccion s2', colS2Index)
+
+// throw('stop')
+
+//Diccionario de indices de vegetación
+//Alfonso--implementación de indice de bandas y paletas de colores sentinel 2
+var DicIndex = {
+  RGB : {bands:['B4','B3','B2'], min:400, max: 3000, gamma: 1.9},
+  NDVI: {bands:['NDVI'], min:-0.15, max: 0.9,palette:['d7191c', 'fdae61','ffffc0','a6d96a','1a9641']},
+  NDWI: {bands:['NDWI'], min:0, max: 1,palette:['7ab384','e1f4e3','2e843c','3f8a49','b4deba','acccb0','0c4380','addacd','8dbdae']}
+  //NDWI: {bands:['NDWI'], min:0, max: 1,palette:['d7191c', 'fdae61','ffffc0','a6d96a','1a9641']},
+}
+
+//Alfonso--implementación de indice de bandas y paletas de colores Landsat 8
+var DicIndexl8 = {
+  RGB : {bands:['SR_B4','SR_B3','SR_B2'], min:8000, max: 14000, gamma: 1.9},
+  NDVI: {bands:['NDVI'], min:-0.15, max: 0.9,palette:['d7191c', 'fdae61','ffffc0','a6d96a','1a9641']},
+  NDWI: {bands:['NDWI'], min:0, max: 1,palette:['7ab384','e1f4e3','2e843c','3f8a49','b4deba','acccb0','0c4380','addacd','8dbdae']}
+  //NDWI: {bands:['NDWI'], min:0, max: 1,palette:['d7191c', 'fdae61','ffffc0','a6d96a','1a9641']},
+}
+/*
+Bandas de colores de indices
+Agricola
+['4f4a44','c2a2a4','907371','4e8a42','54bb49','6f60c2','584e89','142f20','351731'],
+Vegetación Vigorosa
+['4d4f43','c68f7f','92604f','8fb996','668f6e','616ec3','505989','152c2b','49161c'],
+Evi
+['e1d391','a2863d','d19c5a','6db154','94c46f','ba824f','cbdfdf','f1d9b6','cba071']
+*/
+
+
+//Diccionario de Widgets --Kevin Leonel
+
+var dicWidgets = {
+  panel:ui.Panel({widgets:[], layout:ui.Panel.Layout.Flow('vertical'), style:{position:'top-left',backgroundColor:'9999'}}),
+  select : ui.Select({items:Object.keys(munGuanajuato), placeholder:'Seleccione el Municipio',style:{padding:'0px 0px 0px 0px',margin:'0px 0px 0px 0px'}}),
+  selectColeccion : ui.Select({items: Object.keys({'Sentinel 2':[], 'Landsat 8':[]}), placeholder: 'Seleccione colección', style:{padding:'0px 0px 0px 0px',margin:'0px 0px 0px 0px'}}),
+  selectFecha : ui.DateSlider({start:'2019-01-01', end: ee.Date(Date.now()), value: ee.Date(Date.now()), period:7, style:{padding:'0px 0px 0px 0px',margin:'10px 0px 0px 0px'}}),
+  selectFechal8 : ui.DateSlider({start:'2019-01-01', end: ee.Date(Date.now()), value: ee.Date(Date.now()), period:16, style:{padding:'0px 0px 0px 0px',margin:'10px 0px 0px 0px'}}),
+  panelSelectFecha : ui.Panel({layout: ui.Panel.Layout.Flow('vertical'),style:{backgroundColor:'0000'}}),
+  panelHorizontal : ui.Panel({widgets:[], layout:ui.Panel.Layout.Flow('horizontal'), style:{padding:'0px 0px 0px 0px',margin:'10px 0px 0px 0px', backgroundColor:'0000'}}),
+  selectorBandas : ui.Select({items: Object.keys(DicIndex), placeholder:'Seleccione indice', style:{padding:'0px 0px 0px 0px',margin:'0px 0px 0px 10px'}}),
+  selectorBandasl8 : ui.Select({items: Object.keys(DicIndexl8), placeholder:'Seleccione indice', style:{padding:'0px 0px 0px 0px',margin:'0px 0px 0px 10px'}}),
+  ExportingLinks : ui.Label('Sentinel 2: ', {fontWeight:'bold',backgroundColor:'00000000',fontSize:'15px',padding:'0px', margin:'10px 0px 0px 0px'}),
+  areadibujada : ui.Label('Area Dibujada en héctareas: ', {fontWeight:'bold',fontSize: '14px', backgroundColor:'00000000',color:'white', padding:'0px', margin:'10px 0px 0px 0px'}),
+  checkbok : ui.Checkbox({label:'Dibuje la región a descargar!..', style:{padding:'0px', margin:'10px 0px 0px 0px', backgroundColor:'0000'}}),
+  abriretiq : ui.Button('⇗', function(openetiq){dicWidgets.panel.style().set('shown',true);dicWidgets.abriretiq.style().set('shown',false);}, null, {position:'top-left'}),
+  ocultaretiq : ui.Button({label:'⇙',onClick:function(j){dicWidgets.abriretiq.style().set('shown',true) ; dicWidgets.panel.style().set('shown',false)}, style:{position:'bottom-left'}})
+};
+
+/*============================================Cristian Israel ---Añadir widgets al panel en modo oculto=======================================================================*/
+//Añadir widgets al panel
+dicWidgets.panel.widgets().set(0, dicWidgets.select)
+
+//Añadir al panelHorizontal el selector de colecciones en modo oculto
+dicWidgets.panelHorizontal.widgets().set(0, dicWidgets.selectColeccion);
+
+
+//Añadir al panel el panelHorizontal en modo oculto
+dicWidgets.panel.widgets().set(1,dicWidgets.panelHorizontal);
+//Cambiar el estado del selector de colección de visible a invisible
+dicWidgets.panelHorizontal.style().set('shown', false);
+
+//Añadir el selector de fechas de S2 al panel selector de fechas
+dicWidgets.panelSelectFecha.widgets().set(0, dicWidgets.selectFecha);
+
+//Añadir el selector de fechas de L8 al panel selector de fechas
+dicWidgets.panelSelectFecha.widgets().set(1, dicWidgets.selectFechal8);
+
+
+//Añadir al panel el selector de Fecha en modo oculto
+dicWidgets.panel.widgets().set(2, dicWidgets.panelSelectFecha);
+
+//Cambiar el estado del selector de Fecha de visible a invisible
+dicWidgets.panelSelectFecha.style().set('shown', false);
+
+//Añadir al panel el checkbok
+dicWidgets.panel.widgets().set(3, dicWidgets.checkbok);
+dicWidgets.checkbok.style().set('shown', false);
+
+//Añadir al panel una etiqueta con el área que el usuario dibujo
+dicWidgets.panel.widgets().set(4, dicWidgets.areadibujada);
+dicWidgets.areadibujada.style().set('shown', false);
+
+//Añadir al panel una etiqueta para exportar el área que el usuario dibujo
+dicWidgets.panel.widgets().set(5, dicWidgets.ExportingLinks);
+dicWidgets.ExportingLinks.style().set('shown', false);
+
+
+//Añadir el panel al mapa
+Map.widgets().set(1,dicWidgets.panel)
+
+//Añadir boton para abrir etiqueta
+Map.widgets().set(2, dicWidgets.abriretiq);
+
+dicWidgets.abriretiq.style().set('shown', false);
+
+//Agregar una función que iteracione con los municipios------Kevin Leonel 
+dicWidgets.select.onChange(function(m){
+// Map.remove(Map.layers().get(1))
+ //Centre el municipio 
+ Map.centerObject(munGuan.filter(ee.Filter.eq('NOM_MUN',m)));
+ //Mostrar los limites del Municipio en el mapa
+ var layer = ui.Map.Layer({eeObject:munGuan.filter(ee.Filter.eq('NOM_MUN',m)).style({color:'yellow', width:3, fillColor:'0000'}),name:'Municipio: '+m});
+ Map.layers().set(0,layer);
+ //Cambiar el estado del selector de colección de invisible a visible
+ dicWidgets.panelHorizontal.style().set('shown', true);
+ //Agregar una función que iteracione con las 2 colecciones de imagenes, tanto sentinel 2, como Landsat 8
+ dicWidgets.selectColeccion.onChange(function(c){
+   
+ 
+ //Estructura de control de colecciones if else
+ //--Kevin Leonel---Controlar la seleccion de colecciones de imagenes
+    if (c == 'Sentinel 2' ){
+     dicWidgets.panelHorizontal.widgets().remove(dicWidgets.selectorBandasl8);
+     dicWidgets.panelHorizontal.widgets().set(1, dicWidgets.selectorBandas);
+     dicWidgets.panel.widgets().remove(dicWidgets.ocultaretiq);
+     dicWidgets.ExportingLinks.style().set('shown', false);
+     dicWidgets.areadibujada.style().set('shown', false);
+     dicWidgets.checkbok.setValue(false);
+     //Elimina del mapa los poligonos dibujados
+     Map.drawingTools().clear();
+    
+     dicWidgets.selectorBandas.onChange(function(b){
+   
+     dicWidgets.checkbok.style().set('shown',true);
+       
+    //Cambiar el estado del selector de Fecha S2 de visible a invisible
+     dicWidgets.selectFecha.style().set('shown', true);
+       
+    //Cambiar el estado del selector de Fecha l8 de visible a invisible
+     dicWidgets.selectFechal8.style().set('shown', false);
+     
+     //Cambiar el estado del selector de Fecha de invisible a visible
+     dicWidgets.panelSelectFecha.style().set('shown', true);
+     
+     
+     //función que registra un evento de cambio, al seleccionar una fecha diferente  
+     dicWidgets.selectFecha.onChange(function(f){
+      var coleccionS2A = coleccionMask.filterBounds(munGuan.filter(ee.Filter.eq('NOM_MUN', dicWidgets.select.getValue())))
+      .filterDate(ee.Date(dicWidgets.selectFecha.getValue()[0]).format('YYYY-MM-dd'), ee.Date(dicWidgets.selectFecha.getValue()[1]).format('YYYY-MM-dd'))
+      .map(colIndex).mosaic().clip(munGuan.filter(ee.Filter.eq('NOM_MUN', dicWidgets.select.getValue())));
+      
+      var layerCol = ui.Map.Layer(coleccionS2A, DicIndex[dicWidgets.selectorBandas.getValue()], 'Colección S2: '+b);
+      Map.layers().set(1,layerCol);
+      //función que registra un evento de cambio en los indices 
+      dicWidgets.selectorBandas.onChange(function(b){
+      var layerCol = ui.Map.Layer(coleccionS2A, DicIndex[dicWidgets.selectorBandas.getValue()], 'Colección S2: '+b);
+      
+      Map.layers().set(1,layerCol);
+       });
+       
+          dicWidgets.checkbok.onChange(function(k){
+          //Estruectura de control if / else
+          if(k===true){
+          Map.drawingTools().clear();
+          // No haga importaciones que correspondan a los rectángulos dibujados.
+          Map.drawingTools().setLinked(false);
+          // Limite los modos de dibujo a poligonos.
+          Map.drawingTools().setDrawModes(['polygon']);
+          // Agregue una capa vacía para sostener el poligono dibujado.
+          Map.drawingTools().addLayer([]);
+          // Establecer el tipo de geometría para ser poligono.
+          Map.drawingTools().setShape('polygon');
+          // Ingrese al modo de dibujo.
+          Map.drawingTools().draw();
+
+          Map.drawingTools().onDraw(function (geometry) {
+          // Haz algo con la geometría
+          var AOI = Map.drawingTools().toFeatureCollection(0);
+          Map.centerObject(AOI);
+          Map.drawingTools().stop(); 
+          /*Calcular el area Dibujada*/
+          var area = ee.Image(1).reduceRegion(ee.Reducer.sum(), AOI, 10)
+          var numbrer_area = ee.Number(area.get('constant')).multiply(10).multiply(10).divide(10000)
+          
+          dicWidgets.areadibujada.setValue('Area Dibujada en héctareas: '+numbrer_area.format("%(,.2f").getInfo());
+          dicWidgets.areadibujada.style().set('shown', true);
+          
+          /*Descargar Imagen*/
+          var Layer = 'Descargar Imagen ';
+          
+          var url = coleccionS2A.visualize(DicIndex[dicWidgets.selectorBandas.getValue()])
+          .getDownloadURL({ 
+          // name: "TheGeoTIFF",
+          region: AOI.geometry(),
+          scale: 10,// or Map.getScale(),
+          format: 'GeoTIFF',
+          }); 
+          dicWidgets.ExportingLinks.setValue(Layer+ 'Sentinel 2').setUrl(url); 
+          dicWidgets.ExportingLinks.style().set('shown', true);
+          
+          });
+         }
+        });
+        dicWidgets.panel.widgets().set(6, dicWidgets.ocultaretiq)
+     });
+    });
+   }else{
+     //Remueve del panel el selector de bandas de sentinel 2
+     dicWidgets.panelHorizontal.widgets().remove(dicWidgets.selectorBandas);
+     //Añade al panel el selector de bandas de landsat 8
+     dicWidgets.panelHorizontal.widgets().set(1, dicWidgets.selectorBandasl8);
+     //remover el boton para ocultar el panel principal
+     dicWidgets.panel.widgets().remove(dicWidgets.ocultaretiq);
+     //Cambia el estado de visibe a imvisible de las etiquetas para exportar la imagen y del área dibujada
+     dicWidgets.ExportingLinks.style().set('shown', false);
+     dicWidgets.areadibujada.style().set('shown', false);
+     dicWidgets.checkbok.setValue(false);
+     //Elimina del mapa los poligonos dibujados
+     Map.drawingTools().clear();
+     
+     dicWidgets.selectorBandasl8.onChange(function(b){
+       
+     dicWidgets.checkbok.style().set('shown',true);
+      //Cambiar el estado del selector de Fecha s2 de invisible a visible
+     dicWidgets.panelSelectFecha.style().set('shown', true);
+     
+     //Cambiar el estado del selector de Fecha l8 de visible a invisible
+     dicWidgets.selectFechal8.style().set('shown', true);
+     
+     //Cambiar el estado del selector de Fecha S2 de visible a invisible
+     dicWidgets.selectFecha.style().set('shown', false);
+     
+     //función que registra un evento de cambio, al seleccionar una fecha diferente  
+     dicWidgets.selectFechal8.onChange(function(f){
+      var coleccionl8SR = colL8Sr.filterBounds(munGuan.filter(ee.Filter.eq('NOM_MUN', dicWidgets.select.getValue())))
+      .filterDate(ee.Date(dicWidgets.selectFechal8.getValue()[0]).format('YYYY-MM-dd'), ee.Date(dicWidgets.selectFechal8.getValue()[1]).format('YYYY-MM-dd'))
+      .filterMetadata('CLOUD_COVER', 'less_than',10)
+      .map(colIndexl8).mosaic().clip(munGuan.filter(ee.Filter.eq('NOM_MUN', dicWidgets.select.getValue())));
+      
+      var layerCol = ui.Map.Layer(coleccionl8SR, DicIndexl8[dicWidgets.selectorBandasl8.getValue()], 'Colección L8: '+b);
+      Map.layers().set(1,layerCol);
+      //función que registra un evento de cambio en los indices 
+      dicWidgets.selectorBandasl8.onChange(function(b){
+      var layerCol = ui.Map.Layer(coleccionl8SR, DicIndexl8[dicWidgets.selectorBandasl8.getValue()], 'Colección L8: '+b);
+      print(DicIndex[dicWidgets.selectorBandasl8.getValue()]);
+      Map.layers().set(1,layerCol);
+       });
+       
+         dicWidgets.checkbok.onChange(function(k){
+          //Estruectura de control if / else
+          if(k===true){
+          Map.drawingTools().clear();
+          // No haga importaciones que correspondan a los rectángulos dibujados.
+          Map.drawingTools().setLinked(false);
+          // Limite los modos de dibujo a poligonos.
+          Map.drawingTools().setDrawModes(['polygon']);
+          // Agregue una capa vacía para sostener el poligono dibujado.
+          Map.drawingTools().addLayer([]);
+          // Establecer el tipo de geometría para ser poligono.
+          Map.drawingTools().setShape('polygon');
+          // Ingrese al modo de dibujo.
+          Map.drawingTools().draw();
+
+          Map.drawingTools().onDraw(function (geometry) {
+          // Haz algo con la geometría
+          var AOI = Map.drawingTools().toFeatureCollection(0);
+          Map.centerObject(AOI);
+          Map.drawingTools().stop(); 
+          /*Calcular el area Dibujada*/
+          var area = ee.Image(1).reduceRegion(ee.Reducer.sum(), AOI, 10)
+          var numbrer_area = ee.Number(area.get('constant')).multiply(10).multiply(10).divide(10000)
+          
+          dicWidgets.areadibujada.setValue('Area Dibujada en héctareas: '+numbrer_area.format("%(,.2f").getInfo());
+          dicWidgets.areadibujada.style().set('shown', true);
+          /*Descargar imagen L8*/
+          var Layer = 'Descargar Imagen ';
+          
+          var url = coleccionl8SR.visualize(DicIndex[dicWidgets.selectorBandasl8.getValue()])
+          .getDownloadURL({ 
+          // name: "TheGeoTIFF",
+          region: AOI.geometry(),
+          scale: 10,// or Map.getScale(),
+          format: 'GeoTIFF',
+          }); 
+          dicWidgets.ExportingLinks.setValue(Layer+ 'Landsat 8').setUrl(url); 
+          dicWidgets.ExportingLinks.style().set('shown', true);
+          
+          });
+         }
+        });
+        dicWidgets.panel.widgets().set(6, dicWidgets.ocultaretiq)
+     });
+    });
+   }
+   
+ });
+
+});

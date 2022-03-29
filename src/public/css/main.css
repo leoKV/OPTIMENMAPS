@@ -1,0 +1,127 @@
+body {
+  background-image: url(/img/cultivos.jpg);
+}
+
+.logo {
+  width: 30%;
+}
+#logo{
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.card-title{
+  color:#012503;
+  font-size: 20px;
+}
+
+div.card{
+  background: #dcffff;  /* fallback for old browsers */
+}
+
+h6#sub{
+  color: #aa9e2e;
+  font-size: 16px;
+  font-family: Verdana;
+}
+h5#s2{
+  color: #0026ff;
+  font-family: Verdana;
+}
+p#tex{
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 15px;
+  color: white;
+}
+p#tex2{
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 15px;
+  color: #e056fd;
+}
+input.form-control::placeholder{
+  color: rgb(0, 0, 0);
+}
+input.form-control{
+  color: rgb(0, 0, 0);
+}
+textarea.form-control::placeholder{
+  color: rgb(0, 0, 0);
+}
+textarea.form-control{
+  color: rgb(0, 0, 0);
+}
+h3{
+  color:#2bee24
+}
+input::content{
+  color: white;
+}
+option{
+ background-color: #ffa502;
+ color:black;
+}
+h1.h4{
+  color:#000000
+}
+div.card-header{
+  color:#000000;
+  font-size:18px;
+}
+p.lead{
+  color:white;
+}
+h1#wel{
+  color:white;
+}
+#par{
+  color:black;
+}
+.carousel-item{
+transition: transform 0.1s ease, opacity 0.5s;
+
+
+}
+#fondoin{
+  /*background-image:url(/img/cultivo.jpg);*/
+  background-color: #dcffff;
+  border-radius: 35px;
+}
+#mapa{
+  border-radius: 25px;
+  width: 100%;
+  height: 700px;
+}
+#tar{
+  height: 200px;
+}
+#carga{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  min-width: 10%;
+  min-height: 20%;
+  
+}
+#fondoin2{
+  background-color: #dcffff;
+  border-radius: 35px; 
+}
+#opti{
+  
+}
+#images{
+  border-radius: 25px;
+  width: 1000px;
+  height: 800px;
+}
+#acerca{
+  text-align: center;
+  color: #0026ff;
+}
+#uv{
+  width: 310px;
+  height: 210px;
+}
