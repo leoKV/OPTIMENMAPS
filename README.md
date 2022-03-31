@@ -347,7 +347,7 @@ Licencia.
 •Alfonso Alberto Ferro Bortolotti
 
 [organigrama-url]:https://utng.atlassian.net/jira/software/projects/GEO/boards/2/backlog?selectedIssue=GEO-31
-[gantt-url]:https://drive.google.com/drive/folders/18zB0tAAK_LA5AIoHGGFHur39qxEdyET4
+[gantt-url]:https://drive.google.com/file/d/1Ub-NqV2_GsKrj8a6sZbidEHJLcex-TeY/view?usp=sharing
 [estandar-url]:https://drive.google.com/file/d/1J9REbqCNSdwR_MSIuLWJEpHEJjOjOS7I/view?usp=sharing
 [pruebas-url]:https://drive.google.com/file/d/1w-Delo3tBvYU2E1_9CYL-5U-wUfp85uW/view?usp=sharing
 [guia-url]:https://drive.google.com/file/d/1nq5cdg5AnpFfz82L2ZEOYj9CVCnVIf0b/view?usp=sharing
