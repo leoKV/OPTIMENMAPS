@@ -206,11 +206,58 @@ de codificación implementados en la [aplicación...][estandar-url]
 ## Pruebas.
 <!-- Casos de prueba -->
 #### Casos de prueba.
-Indicar los casos de prueba
+--RF1 Registro de Usuario--
+
+CP01_Registro de un Usuario.
+
+CP02_Registro de un Usuario Repetido.
+
+CP03_Registro de Usuario con contraseña de menos de 4 caracteres.
+
+CP04_Registro de Usuario con correo en formato invalido.
+
+CP05_Registro de Usuario que introduce una confirmación de contraseña diferente.
+
+--RF2 Inicio de Sesión--
+
+CP06_Inicio de Sesión con cuenta registrada.
+
+CP07_Inicio de Sesión con cuenta no registrada.
+
+CP08_Inicio de Sesión sin ingreso de correo y contraseña.
+
+CP09_Cerrar Sesión.
+
+CP10_Denegación de Rutas.
+
+--RF3 Análisis de índices--
+
+CP11_Selección del municipio.
+
+CP12_Seleccion de colección (satélite).
+
+CP13_Seleccion de área con sentinel2 y con el índice RGB.
+
+CP14_Seleccion de área con Sentinel 2 y con el índice NDVI y Sentinel2.
+
+CP15_Seleccion de área con Sentinel 2 y con el índice NDWI.
+
+CP16_Seleccion de área con Landsat8 y con el índice RGB.
+
+CP17_Seleccion de área con Landsat8 y el índice NDVI.
+CP18_Seleccion de área con Landsat8 y con el índice NDWI.
+
+--RF4 Trazado de Polígonos--
+
+CP19_Trazado de Polígonos.
+
+--RF5 Descarga de Imágenes--
+
+CP20_Descarga de Imágenes.
 
 <!-- Ejecución Casos de prueba -->
 #### Ejecución.
-Evidencia de Ejecución de Casos de prueba.
+Los resultados de ejecución de casos de prueba se encuentran disponibles en el siguiente [enlace…][pruebas-url]
 
 
 <!-- Iniciando -->
@@ -294,6 +341,7 @@ Licencia.
 [organigrama-url]:https://utng.atlassian.net/jira/software/projects/GEO/boards/2/backlog?selectedIssue=GEO-31
 [gantt-url]:https://docs.google.com/spreadsheets/d/1rkuLsl1tamH4W2bh5Htx5j1Fur-tqTLR/edit?usp=sharing&ouid=100668929262925714548&rtpof=true&sd=true
 [estandar-url]:https://drive.google.com/file/d/1J9REbqCNSdwR_MSIuLWJEpHEJjOjOS7I/view?usp=sharing
+[pruebas-url]:https://drive.google.com/file/d/1aCypKd19JYylf_ZfK0XCLBZIgeMGqwES/view
 [guia-url]:https://drive.google.com/file/d/1nq5cdg5AnpFfz82L2ZEOYj9CVCnVIf0b/view?usp=sharing
 [contribucion-url]:https://www.youtube.com/channel/UCX2SmNiGKRq9wZRN85RHHBA
 [Casos-url]:https://user-images.githubusercontent.com/88465297/160028834-069438fd-fc61-491c-815d-2b4bc9d9b2e6.png
