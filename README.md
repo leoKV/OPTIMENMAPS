@@ -51,6 +51,9 @@
 
 ## Acerca del proyecto
 <!-- Descripción -->
+### Nombre del proyecto:
+Proyecto de Índices de Vegatación para el estado de Guanajuato.
+
 #### Descripción.
 La aplicación web está enfocada a permitirle al usuario analizar algunos índices de vegetación en cada uno
 de los 46 municipios que conforman el estado de Guanajuato, México, por medio de 2 colecciones de
@@ -67,9 +70,8 @@ el uso de estas, tales como Google Earth Pro o QGIS por mencionar algunas.
 
 <!-- Objetivos -->
 #### Objetivos.
-El objetivo de este proyecto es generar una herramienta que permita el análisis de varios índices de 
-vegetación en cada municipio del estado de Guanajuato, México, con la finalidad de que el usuario sea
-capaz de visualizar y utilizar la información para adaptarla a sus necesidades.
+Generar una herramienta de analisis de indices de vegetación en cada municipio del estado de Guanajuato, con el fin  de que el usuario pueda visualizar, analizar y  utilizar la información para adaptarla a sus necesidades.
+
 <!-- Organigrama -->
 #### Organigrama.
 El control del proceso de asignación y realización de actividades fue implementado con ayuda de Jira Software, la cual es una herramienta en línea para la administración de proyectos de software con el objetivo de documentar el seguimiento del desarrollo de las diferentes actividades que se van desarrollando a lo largo de la implementación de un proyecto con el fin de documentar los avances de cada integrante del equipo de una manera más organizada y coherente.
@@ -341,7 +343,7 @@ Licencia.
 [organigrama-url]:https://utng.atlassian.net/jira/software/projects/GEO/boards/2/backlog?selectedIssue=GEO-31
 [gantt-url]:https://docs.google.com/spreadsheets/d/1rkuLsl1tamH4W2bh5Htx5j1Fur-tqTLR/edit?usp=sharing&ouid=100668929262925714548&rtpof=true&sd=true
 [estandar-url]:https://drive.google.com/file/d/1J9REbqCNSdwR_MSIuLWJEpHEJjOjOS7I/view?usp=sharing
-[pruebas-url]:https://drive.google.com/file/d/1aCypKd19JYylf_ZfK0XCLBZIgeMGqwES/view
+[pruebas-url]:https://drive.google.com/file/d/1w-Delo3tBvYU2E1_9CYL-5U-wUfp85uW/view?usp=sharing
 [guia-url]:https://drive.google.com/file/d/1nq5cdg5AnpFfz82L2ZEOYj9CVCnVIf0b/view?usp=sharing
 [contribucion-url]:https://www.youtube.com/channel/UCX2SmNiGKRq9wZRN85RHHBA
 [Casos-url]:https://user-images.githubusercontent.com/88465297/160028834-069438fd-fc61-491c-815d-2b4bc9d9b2e6.png
