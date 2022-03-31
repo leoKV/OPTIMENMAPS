@@ -52,7 +52,7 @@
 ## Acerca del proyecto
 <!-- Descripción -->
 ### Nombre del proyecto:
-Proyecto de Índices de Vegatación para el estado de Guanajuato.
+Índices de Vegatación para el estado de Guanajuato.
 
 #### Descripción.
 La aplicación web está enfocada a permitirle al usuario analizar algunos índices de vegetación en cada uno
@@ -308,10 +308,16 @@ siguienetes pasos a realizar:
   npm run dev.
 
 ## Guias
-Guias de Uso.
+Guia de Uso.
 
 En el siguiente enlace se encuentra una pequeña guia de uso detallada
 de la forma de uso de la [aplicación...][guia-url]
+
+Guia de Modificación.
+
+En el siguiente enlace se encuentra una pequeña guia en la cual se 
+espesifican las acciones que se deben tomar para realizar modificaciones
+al [proyecto...][cambios-url]
 
 ## contribucion
 Agradecimientos especiales a Carlos Saúl Navarro ING.AGR por su
@@ -341,10 +347,11 @@ Licencia.
 •Alfonso Alberto Ferro Bortolotti
 
 [organigrama-url]:https://utng.atlassian.net/jira/software/projects/GEO/boards/2/backlog?selectedIssue=GEO-31
-[gantt-url]:https://docs.google.com/spreadsheets/d/1rkuLsl1tamH4W2bh5Htx5j1Fur-tqTLR/edit?usp=sharing&ouid=100668929262925714548&rtpof=true&sd=true
+[gantt-url]:https://drive.google.com/file/d/1gbjrxsPWdfWUv8aICkpsgXVY2-HHCFKv/view?usp=sharing
 [estandar-url]:https://drive.google.com/file/d/1J9REbqCNSdwR_MSIuLWJEpHEJjOjOS7I/view?usp=sharing
 [pruebas-url]:https://drive.google.com/file/d/1w-Delo3tBvYU2E1_9CYL-5U-wUfp85uW/view?usp=sharing
 [guia-url]:https://drive.google.com/file/d/1nq5cdg5AnpFfz82L2ZEOYj9CVCnVIf0b/view?usp=sharing
+[cambios-url]:
 [contribucion-url]:https://www.youtube.com/channel/UCX2SmNiGKRq9wZRN85RHHBA
 [Casos-url]:https://user-images.githubusercontent.com/88465297/160028834-069438fd-fc61-491c-815d-2b4bc9d9b2e6.png
 [Modelo-url]:https://user-images.githubusercontent.com/88465297/160037552-2d8b33e8-7818-41e3-859b-9be4db7a10e1.jpg
