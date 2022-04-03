@@ -351,7 +351,7 @@ Licencia.
 [estandar-url]:https://drive.google.com/file/d/1J9REbqCNSdwR_MSIuLWJEpHEJjOjOS7I/view?usp=sharing
 [pruebas-url]:https://drive.google.com/file/d/1w-Delo3tBvYU2E1_9CYL-5U-wUfp85uW/view?usp=sharing
 [guia-url]:https://drive.google.com/file/d/1nq5cdg5AnpFfz82L2ZEOYj9CVCnVIf0b/view?usp=sharing
-[cambios-url]:
+[cambios-url]:https://drive.google.com/file/d/1CN2R4ATLxkE_I2xZBxeq83ehaYTLEfio/view?usp=sharing
 [contribucion-url]:https://www.youtube.com/channel/UCX2SmNiGKRq9wZRN85RHHBA
 [Casos-url]:https://user-images.githubusercontent.com/88465297/160028834-069438fd-fc61-491c-815d-2b4bc9d9b2e6.png
 [Modelo-url]:https://user-images.githubusercontent.com/88465297/160037552-2d8b33e8-7818-41e3-859b-9be4db7a10e1.jpg
