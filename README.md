@@ -350,32 +350,42 @@ Licencia.
 ## Bibliografía
 
 Google earth engine. (s/f). Google Developers. Recuperado el 31 de marzo de 2022, de 
+
       https://developers.google.com/earth-engine/
 
 Tutorials. (2011). Microscopy and Microanalysis: The Official Journal of Microscopy 
+
 ||||||Society of America, Microbeam Analysis Society, Microscopical Society of 
+
 ||||||Canada, 17(S1), 86–89. https://doi.org/10.1017/s1431927611000791
 
 Nolan, D., & Lang, D. T. (2014). Keyhole markup language. En Use R! (pp. 581–618).
+
       Springer New York.
       
 Google earth education. (s/f). Google.Com. Recuperado el 31 de marzo de 2022, de
+
       https://www.google.com/earth/education/
 
 Google Earth Engine. (s/f). Google.com. Recuperado el 31 de marzo de 2022, de
+
       https://earthengine.google.com/
 
 Guía de usuario de QGIS — documentación de QGIS Documentation -. (s/f). Qgis.org. 
+
       Recuperado el 31 de marzo de 2022, de 
+
       https://docs.qgis.org/3.16/es/docs/user_manual/
 
 Una Introducción fácil a GIS — documentación de QGIS Documentation -. (s/f).
+
      Qgis.org. Recuperado el 31 de marzo de 2022, de 
+
      https://docs.qgis.org/3.16/es/docs/gentle_gis_introduction/
 
 Carlos Saúl Navarro. (s/f). Youtube. Recuperado el 31 de marzo de 2022, de 
-     https://www.youtube.com/channel/UCX2SmNiGKRq9wZRN85RHHBA
 
+     https://www.youtube.com/channel/UCX2SmNiGKRq9wZRN85RHHBA
 
 
 
