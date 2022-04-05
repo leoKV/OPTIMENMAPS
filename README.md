@@ -355,9 +355,9 @@ Google earth engine. (s/f). Google Developers. Recuperado el 31 de marzo de 2022
 
 Tutorials. (2011). Microscopy and Microanalysis: The Official Journal of Microscopy 
 
-Society of America, Microbeam Analysis Society, Microscopical Society of 
+Society of America, Microbeam Analysis Society, Microscopical Society of Canada, 17(S1), 86–89.
 
-      Canada, 17(S1), 86–89. https://doi.org/10.1017/s1431927611000791
+      https://doi.org/10.1017/s1431927611000791
 
 Nolan, D., & Lang, D. T. (2014). Keyhole markup language. En Use R! (pp. 581–618).
 
