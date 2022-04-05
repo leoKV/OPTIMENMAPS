@@ -120,7 +120,7 @@ El usuario debe seleccionar el link de descarga de la imagen generada para que e
 
 <!-- Diagrama de Casos de Uso -->
 #### Diagrama Casos de Uso.
-![Casos de Uso][Casos-url]
+![Casos de Uso][Casos-url2]
 <!-- Diseño del proyecto -->
 ## Diseño de la Solución.
 •	Base de datos maps (No relacional-MongoDB) Montada en Atlas.
@@ -397,6 +397,7 @@ Carlos Saúl Navarro. (s/f). Youtube. Recuperado el 31 de marzo de 2022, de
 [cambios-url]:https://drive.google.com/file/d/1CN2R4ATLxkE_I2xZBxeq83ehaYTLEfio/view?usp=sharing
 [contribucion-url]:https://www.youtube.com/channel/UCX2SmNiGKRq9wZRN85RHHBA
 [Casos-url]:https://user-images.githubusercontent.com/88465297/160028834-069438fd-fc61-491c-815d-2b4bc9d9b2e6.png
+[Casos-url2]:https://user-images.githubusercontent.com/88465297/161846432-fec81df8-d66c-4883-9e51-8f6a7f51b937.png
 [Modelo-url]:https://user-images.githubusercontent.com/88465297/160037552-2d8b33e8-7818-41e3-859b-9be4db7a10e1.jpg
 [Componente-url]:https://user-images.githubusercontent.com/88465297/160040322-6561d39b-9d99-4f52-9e9f-767c9acb3c29.png
 
