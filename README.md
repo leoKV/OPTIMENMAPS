@@ -359,9 +359,7 @@ Society of America, Microbeam Analysis Society, Microscopical Society of Canada,
 
       https://doi.org/10.1017/s1431927611000791
 
-Nolan, D., & Lang, D. T. (2014). Keyhole markup language. En Use R! (pp. 581–618).
-
-      Springer New York.
+Nolan, D., & Lang, D. T. (2014). Keyhole markup language. En Use R! (pp. 581–618).Springer New York.
       
 Google earth education. (s/f). Google.Com. Recuperado el 31 de marzo de 2022, de
 
